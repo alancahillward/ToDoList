@@ -8,10 +8,9 @@ from tkinter import Y
 from tkinter import X
 from tkinter import ACTIVE
 
-
 #initialize window
 window = tk.Tk()
-window.title("To Do App by alancward")
+window.title("To Do List by alancward")
 window.geometry("300x280")
 window.configure(bg='#D4F8FF')
 window.resizable(False, False)
@@ -44,11 +43,16 @@ def StarTask():
 
 
 
-def DeleteAll(listlen):
-    for i in range(listlen):
-        TasksBox.delete(0)
+def DeleteAll(listlen, list):
+    if listlen <= 0:
+        tkinter.messagebox.showwarning(title="Error",
+        message = "There are no tasks to delete.")
+    else:
+        for i in range(listlen):
+            TasksBox.delete(0)
+            list.pop()
 def ClearListBox():
-    DeleteAll(len(tasks))
+    DeleteAll(len(tasks), tasks)
 #GUI
 TasksFrame = tkinter.Frame(window)
 TasksFrame.pack(side=LEFT)
@@ -84,6 +88,8 @@ TaskDeleteAll.pack()
 #Return & Backspace used for addition/deletion of tasks
 window.bind("<Return>",lambda x: AddTask())
 window.bind("<BackSpace>", lambda x: DeleteTask())
+window.bind('<Shift-BackSpace>',lambda x: ClearListBox())
+window.bind('<Tab>', lambda x: StarTask())
 
 
 
